@@ -1,0 +1,15 @@
+# config.py
+NUM_VMU = 10
+ALPHA = -0.000174
+BETA = 0.075
+GAMMA = 4891.89
+DELTA_MEAN = 200
+DELTA_STD = 10
+COST_PER_STEP = 1
+P_MAX = 20
+S_MIN = 120
+S_MAX = 160
+RESOURCE_LIMIT = 2000
+SEED = 42
+HISTORY_LEN = 10
+EPISODES = 600  # số bước cho convergence analysis
