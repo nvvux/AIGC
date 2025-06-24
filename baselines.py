@@ -8,23 +8,17 @@ def run_random_baseline(env, episodes=600):
         asp_utils.append(asp_util)
     return np.array(asp_utils)
 
-def run_greedy_baseline(env, episodes=600, p_init=None, delta=0.2):
-    if p_init is None:
-        p_curr = (env.COST_PER_STEP + env.P_MAX) / 2
-    else:
-        p_curr = p_init
+def run_greedy_baseline(env, episodes=600, grid_size=100):
     asp_utils = []
-    last_util = None
-    direction = 1  # 1: tăng, -1: giảm
-    for i in range(episodes):
-        # Chỉ thử tăng hoặc giảm (không thử tất cả cùng lúc)
-        p_new = p_curr + direction * delta
-        if env.COST_PER_STEP <= p_new <= env.P_MAX:
-            steps, _, asp_util = env.step(p_new)
-            if last_util is None or asp_util > last_util:
-                p_curr = p_new
-                last_util = asp_util
-            else:
-                direction *= -1  # Đổi hướng nếu giảm utility
-        asp_utils.append(last_util if last_util is not None else 0)
+    for ep in range(episodes):
+        env.reset()  # random lại delta mỗi episode!
+        best_util = -np.inf
+        best_p = env.COST_PER_STEP
+        for p in np.linspace(env.COST_PER_STEP, env.P_MAX, grid_size):
+            steps, _, asp_util = env.step(p)
+            if asp_util > best_util:
+                best_util = asp_util
+                best_p = p
+        asp_utils.append(best_util)
     return np.array(asp_utils)
+

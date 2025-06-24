@@ -13,6 +13,7 @@ class AIGCStackelbergEnv:
         self.RESOURCE_LIMIT = RESOURCE_LIMIT
         self.reset()
     def reset(self):
+        self.deltas = gen_deltas(self.num_vmu)
         self.price = None
         self.steps = np.zeros(self.num_vmu)
         self.asp_utility = 0
